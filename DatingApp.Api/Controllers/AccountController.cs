@@ -1,0 +1,148 @@
+﻿using Application.Services.Interfaces;
+using DatingApp.Api.Services.Interfaces;
+using Domain.DTOs.Account;
+using Domain.DTOs.Common;
+using Domain.DTOs.User;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using static Domain.DTOs.Account.LoginDTO;
+using static Domain.DTOs.Account.RegisterDTO;
+
+namespace DatingApp.Api.Controllers
+{
+    public class AccountController : BaseSiteController
+    {
+        #region Constructor
+
+        private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
+
+        public AccountController(IUserService userService,ITokenService tokenService)
+        {
+            _userService = userService;
+            _tokenService = tokenService;
+        }
+        #endregion
+        // وارد شدن کاربر
+        #region Login
+        [HttpPost("Login")]
+        public async Task<IActionResult> login([FromBody] LoginDTO loginDto)
+        {
+            if (!ModelState.IsValid) {
+                List<string> errors = new List<string>();
+
+                foreach (var modelError in ViewData.ModelState.Values)
+                foreach (var error in modelError.Errors)
+                    errors.Add(error.ErrorMessage);
+
+                return new JsonResult(new ResponseResult(false, "", errors));
+            }
+
+
+            LoginDTO.LoginResult res = await _userService.LoginUsersAsync(loginDto);
+            switch (res)
+            {
+                case LoginDTO.LoginResult.Success:
+                    var user = await _userService.GetUserByEmail(loginDto.Email);
+                    if (user == null)
+                        return new JsonResult(new ResponseResult(false, "متاسفانه حساب کاربری شما یافت نشد."));
+
+                    return new JsonResult(new ResponseResult(true, "حساب کاربری شما با موفقیت ساخته شد.",
+                        new UserDTO
+                        {
+                            Name = user.Name,
+                            Token = _tokenService.CreateToken(user),
+                            Gender = user.Gender
+
+                        }));
+                    ; break;
+
+                case LoginResult.Error:
+                    return new JsonResult(new ResponseResult(false, "مشکلی پیش آمده است. لطفا مجدد تلاش کنید"));
+                case LoginResult.EmailIsNotActive:
+                    return new JsonResult(new ResponseResult(false, "حساب کاربری شما فعال نشده است. لطفا ابتدا حساب کاربری خودتون رو فعال کنید."));
+                default:
+                    break;
+            }
+            return Ok();
+        }
+
+        #endregion
+        //ثبت کابر
+        #region Registre
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterDTO registerDto)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                List<string> errors = new List<string>();
+
+                foreach (var modelError in ViewData.ModelState.Values)
+                    foreach (var error in modelError.Errors)
+                        errors.Add(error.ErrorMessage);
+
+                return new JsonResult(new ResponseResult(false, "", errors));
+            }
+
+            #endregion
+
+
+            RegisterDTO.Registerresult res = await _userService.RegisterUserAsync(registerDto);
+
+            switch (res)
+            {
+                case RegisterDTO.Registerresult.Success:
+                    var user = await _userService.GetUserByEmail(registerDto.Email);
+                    if (user == null)
+                        return new JsonResult(new ResponseResult(false, "متاسفانه حساب کاربری شما یافت نشد."));
+
+                    return new JsonResult(new ResponseResult(true, "با موفقیت در حساب کاربری خود ورود کردید.",
+                        new UserDTO
+                        {
+                            Name = user.Name,
+                            Token = _tokenService.CreateToken(user),
+                            Gender = user.Gender
+
+                        }));
+
+                
+
+                case RegisterDTO.Registerresult.Error:
+                    return Json(new ResponseResult(false, "خطای نامشخص در ثبت نام. لطفا دوباره تلاش کنید"));
+
+
+                case RegisterDTO.Registerresult.EmailIsExist:
+                    return Json(new ResponseResult(false, "آدرس ایمیل تکراریست"));
+
+
+                default:
+                    break;
+            }
+            return Ok();
+
+        }
+
+        #endregion
+        //فراموشی رمز عبور
+        #region Forgot Passwird
+
+        public async Task<IActionResult> ForgotPassword(ForgotPassword forgotPassword)
+        {
+            return Ok();
+        }
+        //خروج از حساب کاربری
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Json(new ResponseResult(true, "با موفقیت خارج شدید"));
+
+        }
+
+        #endregion
+
+    }
+}

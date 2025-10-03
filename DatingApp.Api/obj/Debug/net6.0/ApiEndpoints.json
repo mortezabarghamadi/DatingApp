@@ -27,6 +27,22 @@
   },
   {
     "ContainingType": "DatingApp.Api.Controllers.AccountController",
+    "Method": "ActivateAccount",
+    "RelativePath": "api/Account/ActivateAccount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DatingApp.Api.Controllers.AccountController",
     "Method": "login",
     "RelativePath": "api/Account/Login",
     "HttpMethod": "POST",
@@ -140,24 +156,12 @@
   {
     "ContainingType": "DatingApp.Api.Controllers.UserController",
     "Method": "Delete",
-    "RelativePath": "api/User/{id}",
+    "RelativePath": "api/User",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "DatingApp.Api.Controllers.UserController",

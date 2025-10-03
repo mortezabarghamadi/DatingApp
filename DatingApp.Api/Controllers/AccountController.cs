@@ -125,7 +125,30 @@ namespace DatingApp.Api.Controllers
             return Ok();
 
         }
+        #region Activate Account
+        // فعال‌سازی حساب کاربری
+        [HttpGet("ActivateAccount")]
+        public async Task<IActionResult> ActivateAccount([FromQuery] string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest(new ResponseResult(false, "توکن فعال‌سازی ارسال نشده است."));
+            }
 
+            var result = await _userService.ActivateUserByToken(token);
+
+            if (result)
+            {
+                // می‌توانید به جای JSON یک View موفقیت‌آمیز را برگردانید یا کاربر را به صفحه ورود هدایت کنید
+                return Ok(new ResponseResult(true, "حساب کاربری شما با موفقیت فعال شد. می‌توانید وارد شوید."));
+            }
+            else
+            {
+                // می‌توانید پیام‌های خطا را بر اساس دلیل شکست (منقضی یا نامعتبر) بهتر کنید
+                return BadRequest(new ResponseResult(false, "فعال‌سازی حساب کاربری موفقیت‌آمیز نبود. توکن نامعتبر یا منقضی شده است."));
+            }
+        }
+        #endregion
         #endregion
         //فراموشی رمز عبور
         #region Forgot Passwird

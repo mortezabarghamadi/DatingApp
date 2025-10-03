@@ -73,6 +73,10 @@ namespace Data.Repositories
         {
             await _context.Users.AddAsync(user);
         }
+        public void DeleteUser(User user) 
+        {
+            _context.Users.Remove(user);
+        }
         public void UpdateUser(User user)
         {
             _context.Users.Update(user);

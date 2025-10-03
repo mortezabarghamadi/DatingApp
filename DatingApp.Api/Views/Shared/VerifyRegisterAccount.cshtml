@@ -1,1 +1,37 @@
-﻿<h1>veryfy account</h1>
+﻿@model string 
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>فعال‌سازی حساب کاربری</title>
+</head>
+<body style="font-family: Tahoma, sans-serif; direction: rtl; text-align: right;">
+
+<div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+    <h2 style="color: #333;">فعال‌سازی حساب کاربری</h2>
+        
+    <p>با تشکر از ثبت‌نام شما در Dating App. برای فعال‌سازی حساب کاربری خود، لطفاً روی لینک زیر کلیک کنید:</p>
+
+    <a href="@Model" 
+       style="display: inline-block; padding: 10px 20px; margin: 20px 0; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+        فعال‌سازی حساب کاربری
+    </a>
+
+    <p>
+        **توجه:** این لینک تا ۲۴ ساعت پس از دریافت این ایمیل معتبر است.
+    </p>
+
+    <p>
+        در صورتی که لینک بالا کار نکرد، می‌توانید آن را کپی و در مرورگر خود باز کنید:
+    </p>
+    <p style="word-break: break-all; color: #555; font-size: 12px;">
+        @Model
+    </p>
+
+    <p style="margin-top: 30px; font-size: 14px; color: #777;">با احترام، تیم پشتیبانی Dating App</p>
+</div>
+
+</body>
+</html>

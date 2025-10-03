@@ -64,6 +64,13 @@ namespace Domain.Entites.User
 
         [Display(Name = "تاریخ ثبت نام")]
         public DateTime RegisterDate { get; set; }
+
+        // **فیلدهای جدید برای فعال‌سازی ایمیل**
+        [Display(Name = "توکن فعال‌سازی ایمیل")]
+        public string? EmailActivationCode { get; set; }
+
+        [Display(Name = "زمان انقضای توکن فعال‌سازی")]
+        public DateTime? ActivationCodeExpireDate { get; set; }
         #endregion
 
         #region Relation

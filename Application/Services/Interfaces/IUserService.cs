@@ -18,6 +18,11 @@ namespace Application.Services.Interfaces
         //وارد شدن کاربر
         Task<LoginDTO.LoginResult> LoginUsersAsync(LoginDTO loginDto);
 
+        //ایجاد توکن فعال‌سازی
+        Task<bool> SendActivationEmailAsync(User user);
+        
+        //فعال‌سازی حساب کاربری با توکن
+        Task<bool> ActivateUserByToken(string token);
 
         #endregion
 
@@ -28,6 +33,9 @@ namespace Application.Services.Interfaces
         Task<User?> GetUserByEmail(string Email);
         Task<IEnumerable<MemberDTO>> GetAllUserInformationAsync();
         Task<MemberDTO?> GetUserInformationByNameAsync(string Name);
+        //حذف حساب کاربری
+        Task<bool> DeleteUserAsync(int userId);
+
         //آپدیت اطلاعات کاربر
         Task<bool> UpdateMemberAsync(UpdateMemberDTO model, int userId);
 

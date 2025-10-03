@@ -27,6 +27,8 @@ namespace Domain.Interfaces
 
         //آپدیت اطلاعات
         void UpdateUser(User user);
+        //حذف اکانت
+        void DeleteUser(User user); 
         //اضافه کردن تغییرات
         Task InsertUsersAsync(User user);
 

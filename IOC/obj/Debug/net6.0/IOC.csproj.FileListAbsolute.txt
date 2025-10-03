@@ -289,3 +289,4 @@ C:\Users\Morteza\source\repos\MyDatingApp\IOC\bin\Debug\net6.0\refs\System.Xml.X
 C:\Users\Morteza\source\repos\MyDatingApp\IOC\bin\Debug\net6.0\refs\System.Xml.XPath.dll
 C:\Users\Morteza\source\repos\MyDatingApp\IOC\bin\Debug\net6.0\refs\System.Xml.XPath.XDocument.dll
 C:\Users\Morteza\source\repos\MyDatingApp\IOC\bin\Debug\net6.0\refs\WindowsBase.dll
+C:\Users\Morteza\source\repos\MyDatingApp\IOC\obj\Debug\net6.0\IOC.sourcelink.json

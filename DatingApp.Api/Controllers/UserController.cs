@@ -1,6 +1,7 @@
 ﻿using Application.Extensions.Common;
 using Application.Services.Interfaces;
 using DatingApp.Api.Extensions;
+using Domain.DTOs.Common;
 using Domain.DTOs.User;
 using Domain.Entites.User;
 using Microsoft.AspNetCore.Mvc;
@@ -73,9 +74,30 @@ namespace DatingApp.Api.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        // **حذف حساب کاربری**
+        [HttpDelete] 
+        public async Task<IActionResult> Delete()
         {
+            // استخراج UserID از توکن کاربر جاری
+            var userId = User.GetUserId();
+
+            if (userId <= 0)
+            {
+                return Unauthorized(new ResponseResult(false, "احراز هویت ناموفق. شناسه‌ی کاربر یافت نشد."));
+            }
+
+            var result = await _userService.DeleteUserAsync(userId);
+
+            if (result)
+            {
+                return Ok(new ResponseResult(true, "حساب کاربری شما با موفقیت حذف شد."));
+            }
+            else
+            {
+                // این خطا معمولاً به معنی عدم وجود کاربر یا خطای پایگاه داده است
+                return NotFound(new ResponseResult(false, "حذف حساب کاربری موفقیت‌آمیز نبود. کاربر یافت نشد."));
+            }
         }
     }
 }

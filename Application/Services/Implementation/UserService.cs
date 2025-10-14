@@ -43,6 +43,9 @@ namespace Application.Services.Implementation
         #endregion
 
         #region Account
+
+        #region Register
+
         public async Task<Registerresult> RegisterUserAsync(RegisterDTO registerDTO)
         {
             #region Validations
@@ -90,6 +93,10 @@ namespace Application.Services.Implementation
             return Registerresult.Success;
         }
 
+        #endregion
+
+        #region Login
+
         public async Task<LoginResult> LoginUsersAsync(LoginDTO loginDTO)
         {
             string hashPassword = _passwordHelper.EncodePasswordMd5(loginDTO.Password);
@@ -108,6 +115,76 @@ namespace Application.Services.Implementation
 
             return LoginResult.Success;
         }
+
+        #endregion
+
+        #region ForgotPassword
+
+
+        public async Task<bool> SendPasswordRecoveryEmailAsync(string email)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+
+            if (user == null)
+            {
+                return true;
+            }
+
+            //ایجاد و ذخیره توکن
+            user.PasswordRecoveryCode = Guid.NewGuid().ToString();
+            user.PasswordRecoveryCodeExpireDate = DateTime.Now.AddHours(24);
+
+            _userRepository.UpdateUser(user);
+            await _userRepository.SaveChangeAsync();
+
+            var baseUrl = "https://localhost:7226";
+            var activationLink = $"{baseUrl}/api/Account/ResetPassword?token={user.PasswordRecoveryCode}";
+
+            try
+            {
+                var body = _viewRender.RenderToStringAsync("ResetPasswordEmail", activationLink);
+                _sendMail.Send(user.Email, "بازیابی رمز عبور حساب کاربری", body);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> ResetPasswordAsync(string token, string newPassword)
+        {
+            var user = await _userRepository.GetAllUsersAsQueryable()
+                .FirstOrDefaultAsync(u => u.PasswordRecoveryCode == token);
+
+            if (user == null)
+            {
+                return false; 
+            }
+
+            //بررسی انقضای توکن
+            if (user.PasswordRecoveryCodeExpireDate.HasValue && user.PasswordRecoveryCodeExpireDate < DateTime.Now)
+            {
+                // توکن منقضی شده است، فیلدها را پاک کن
+                user.PasswordRecoveryCode = null;
+                user.PasswordRecoveryCodeExpireDate = null;
+                _userRepository.UpdateUser(user);
+                await _userRepository.SaveChangeAsync();
+                return false;
+            }
+
+            //رمز عبور جدید را هش و ذخیره کن
+            user.password = _passwordHelper.EncodePasswordMd5(newPassword);
+
+            //توکن بازیابی را پاک کن
+            user.PasswordRecoveryCode = null;
+            user.PasswordRecoveryCodeExpireDate = null;
+
+            _userRepository.UpdateUser(user);
+            await _userRepository.SaveChangeAsync();
+
+            return true;
+        }
+        #endregion
 
         #endregion
 
@@ -145,7 +222,6 @@ namespace Application.Services.Implementation
                 Country = user.Country,
                 KnowAs = user.KnowAs,
                 RegisterDate = user.RegisterDate,
-                PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url,
                 Photos = user.Photos.Select(p => new PhotoDTO
                 {
                     Id = p.Id,
@@ -167,7 +243,6 @@ namespace Application.Services.Implementation
             return new MemberDTO()
             {
                 UserID = user.UserID,
-                PhotoUrl = $"https://localhost:7220/images/users/{user.Avatar}",
                 Age = user.DateOfBirth.CalculateAge(),
                 City = user.City,
                 Country = user.Country,
@@ -194,7 +269,6 @@ namespace Application.Services.Implementation
 
         #region ActiveAccount
 
-        // ارسال ایمیل فعال‌سازی
         public async Task<bool> SendActivationEmailAsync(User user)
         {
             user.EmailActivationCode = Guid.NewGuid().ToString().Replace("-", "");

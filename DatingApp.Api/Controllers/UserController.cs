@@ -25,6 +25,8 @@ namespace DatingApp.Api.Controllers
         }
 
         #endregion
+
+        #region Get
         //گرفتن همه کاربران
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -42,10 +44,18 @@ namespace DatingApp.Api.Controllers
             return Ok(await _userService.GetUserInformationByNameAsync(Name));
         }
 
+        #endregion
+
+        #region post
+
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
+
+        #endregion
+
+        #region Put
 
         //آپدیت اطلاعات کاربر 
         [HttpPut]
@@ -74,6 +84,9 @@ namespace DatingApp.Api.Controllers
 
         }
 
+        #endregion
+
+        #region Delete
 
         // **حذف حساب کاربری**
         [HttpDelete] 
@@ -99,5 +112,7 @@ namespace DatingApp.Api.Controllers
                 return NotFound(new ResponseResult(false, "حذف حساب کاربری موفقیت‌آمیز نبود. کاربر یافت نشد."));
             }
         }
+
+        #endregion
     }
 }

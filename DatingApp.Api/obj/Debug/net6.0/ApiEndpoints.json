@@ -1,32 +1,6 @@
 [
   {
     "ContainingType": "DatingApp.Api.Controllers.AccountController",
-    "Method": "ForgotPassword",
-    "RelativePath": "api/Account",
-    "HttpMethod": "",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "forgotPassword",
-        "Type": "Domain.DTOs.Account.ForgotPassword",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DatingApp.Api.Controllers.AccountController",
-    "Method": "Logout",
-    "RelativePath": "api/Account",
-    "HttpMethod": "",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DatingApp.Api.Controllers.AccountController",
     "Method": "ActivateAccount",
     "RelativePath": "api/Account/ActivateAccount",
     "HttpMethod": "GET",
@@ -37,6 +11,22 @@
         "Name": "token",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DatingApp.Api.Controllers.AccountController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/Account/ForgotPassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "forgotPassword",
+        "Type": "Domain.DTOs.Account.ForgotPassword",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -68,6 +58,22 @@
       {
         "Name": "registerDto",
         "Type": "Domain.DTOs.Account.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DatingApp.Api.Controllers.AccountController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/Account/ResetPassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resetPasswordDto",
+        "Type": "Domain.DTOs.Account.ResetPasswordDTO",
         "IsRequired": true
       }
     ],

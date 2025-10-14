@@ -23,7 +23,10 @@ namespace Application.Services.Interfaces
         
         //فعال‌سازی حساب کاربری با توکن
         Task<bool> ActivateUserByToken(string token);
-
+        //ارسال ایمیل
+        Task<bool> SendPasswordRecoveryEmailAsync(string email);
+        //بازنشانی رمز عبور
+        Task<bool> ResetPasswordAsync(string token, string newPassword); 
         #endregion
 
         #region User 

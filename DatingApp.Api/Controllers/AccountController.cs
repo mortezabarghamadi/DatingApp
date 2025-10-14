@@ -49,7 +49,7 @@ namespace DatingApp.Api.Controllers
                     if (user == null)
                         return new JsonResult(new ResponseResult(false, "متاسفانه حساب کاربری شما یافت نشد."));
 
-                    return new JsonResult(new ResponseResult(true, "حساب کاربری شما با موفقیت ساخته شد.",
+                    return new JsonResult(new ResponseResult(true, "با موفقیت در حساب کاربری خود وارد شدید ",
                         new UserDTO
                         {
                             Name = user.Name,
@@ -100,7 +100,7 @@ namespace DatingApp.Api.Controllers
                     if (user == null)
                         return new JsonResult(new ResponseResult(false, "متاسفانه حساب کاربری شما یافت نشد."));
 
-                    return new JsonResult(new ResponseResult(true, "با موفقیت در حساب کاربری خود ورود کردید.",
+                    return new JsonResult(new ResponseResult(true, "با موفقیت حساب کاربری ساخته شد .",
                         new UserDTO
                         {
                             Name = user.Name,
@@ -125,6 +125,8 @@ namespace DatingApp.Api.Controllers
             return Ok();
 
         }
+        #endregion
+
         #region Activate Account
         // فعال‌سازی حساب کاربری
         [HttpGet("ActivateAccount")]
@@ -149,23 +151,58 @@ namespace DatingApp.Api.Controllers
             }
         }
         #endregion
-        #endregion
         //فراموشی رمز عبور
-        #region Forgot Passwird
+        #region Forgot Password
 
-        public async Task<IActionResult> ForgotPassword(ForgotPassword forgotPassword)
+        //درخواست فراموشی رمز عبور
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPassword forgotPassword)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                List<string> errors = new List<string>();
+
+                foreach (var modelError in ViewData.ModelState.Values)
+                foreach (var error in modelError.Errors)
+                    errors.Add(error.ErrorMessage);
+
+                return new JsonResult(new ResponseResult(false, "", errors));
+            }
+
+            var result = await _userService.SendPasswordRecoveryEmailAsync(forgotPassword.Email);
+
+            return Ok(new ResponseResult(true, "اگر این ایمیل در سیستم ما ثبت شده باشد، لینک بازنشانی برای شما ارسال خواهد شد."));
         }
-        //خروج از حساب کاربری
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-            return Json(new ResponseResult(true, "با موفقیت خارج شدید"));
 
+        //بازنشانی رمز عبور
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<string> errors = new List<string>();
+
+                foreach (var modelError in ViewData.ModelState.Values)
+                foreach (var error in modelError.Errors)
+                    errors.Add(error.ErrorMessage);
+
+                return new JsonResult(new ResponseResult(false, "", errors));
+            }
+
+            var result = await _userService.ResetPasswordAsync(resetPasswordDto.Token, resetPasswordDto.NewPassword);
+
+            if (result)
+            {
+                return Ok(new ResponseResult(true, "رمز عبور شما با موفقیت بازنشانی شد."));
+            }
+            else
+            {
+                return BadRequest(new ResponseResult(false, "بازنشانی رمز عبور موفقیت‌آمیز نبود. توکن نامعتبر یا منقضی شده است."));
+            }
         }
 
         #endregion
+
 
     }
 }

@@ -12,15 +12,18 @@ namespace Application.Extensions.Common
     {
         public static int GetUserId(this ClaimsPrincipal claimsPrincipal)
         {
-            var userID = claimsPrincipal.FindFirst("UserID")?.Value;
+            var userID = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             if (!string.IsNullOrWhiteSpace(userID))
             {
-                return int.Parse(userID);
+                // تلاش برای تبدیل به عدد صحیح
+                if (int.TryParse(userID, out int id))
+                {
+                    return id;
+                }
             }
-            else
-            {
-                return default(int);
-            }
+            // در صورت عدم وجود یا عدم تبدیل صحیح، 0 برگردانده شود.
+            return default(int);
         }
     }
 }

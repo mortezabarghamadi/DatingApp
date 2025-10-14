@@ -71,6 +71,11 @@ namespace Domain.Entites.User
 
         [Display(Name = "زمان انقضای توکن فعال‌سازی")]
         public DateTime? ActivationCodeExpireDate { get; set; }
+        [Display(Name = "توکن بازنشانی رمز عبور")]
+        public string? PasswordRecoveryCode { get; set; } 
+
+        [Display(Name = "زمان انقضای توکن بازنشانی")]
+        public DateTime? PasswordRecoveryCodeExpireDate { get; set; } 
         #endregion
 
         #region Relation

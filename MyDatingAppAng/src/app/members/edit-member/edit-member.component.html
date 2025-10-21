@@ -1,0 +1,89 @@
+<div class="row" *ngIf="member">
+    <div class="col-4">
+        <h4 class="edit-member-title">ویرایش حساب کاربری</h4>
+    </div>
+    <div class="col-8">
+        <div class="alert alert-info" *ngIf="editForm.dirty">
+            <strong>هشدار: </strong> شما تغییراتی داخل فرم ایجاده کرده اید لطفا فرم را ذخیره کنید.
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.userName}}"
+                class="card-img-top img-thumbnail">
+            <div class="card-body custom-card">
+                <div>
+                    <strong class="d-inline-block">آدرس: </strong>
+                    <p class="d-inline-block mx-2">{{member.city}}, {{member.country}}</p>
+                </div>
+                <div>
+                    <strong>سن : </strong>
+                    <p class="d-inline-block mx-2">{{member.age??"----"}}</p>
+                </div>
+                <div>
+                    <strong class="d-inline-block">اخرین بازدید : </strong>
+                    <p class="d-inline-block mx-2">{{member.lastActive??"----"}}</p>
+                </div>
+
+                <div>
+                    <strong class="d-inline-block">تاریخ ایجاد : </strong>
+                    <p class="d-inline-block mx-2">{{member.created??"----"}}</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button [disabled]="!editForm.dirty" class="btn btn-success btn-block" type="submit"
+                    form="editForm">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card mb-5">
+            <div class="card-body p-5">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#aboutme"
+                            type="button" role="tab" aria-controls="home" aria-selected="true">حساب کاربری</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="aboutme" role="tabpanel" aria-labelledby="home-tab">
+                        <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
+                            <div class="row my-4">
+                                <div class="col-12 mb-4">
+                                    <label class="mb-2">توضیحات</label>
+                                    <textarea name="introduction" [(ngModel)]="member.introduction" class="form-control"
+                                        rows="6"></textarea>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <label class="mb-2">اهداف</label>
+                                    <textarea name="lookingFor" [(ngModel)]="member.lookingFor" class="form-control"
+                                        rows="6"></textarea>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <label class="mb-2">علاقمندی ها</label>
+                                    <textarea name="intrests" [(ngModel)]="member.intrests" class="form-control"
+                                        rows="6"></textarea>
+
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <label for="city" class="form-label d-block">شهر:</label>
+                                            <input type="text" name="city" id="city" class="form-control">
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="country" class="form-label d-block">کشور:</label>
+                                            <input type="text" name="country" id="country" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

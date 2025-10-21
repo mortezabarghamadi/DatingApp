@@ -1,0 +1,28 @@
+.img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+}
+
+.edit-member-title{
+    margin-bottom: 40px;
+}
+
+textarea{
+    resize: none;
+}
+
+.card{
+    box-shadow: 0px 3px 11px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.card-body {
+    padding: 0 25px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    background-color: #fff;
+    border-top: none;
+}

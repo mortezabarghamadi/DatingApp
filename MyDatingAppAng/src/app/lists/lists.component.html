@@ -1,0 +1,26 @@
+<div class="text-center mt-3">
+    <h3>{{predicate==='liked'?'کاربرهای لایک شده':'کاربرهایی که من را لایک کردن'}}</h3>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-4">
+            <div name="predicate">
+                <button class="btn btn-info mx-2" btnRadio="likedBy" [(ngModel)]="predicate"
+                    (click)="loadLikes('likedBy')">
+                    کاربرهایی که من را لایک کردن
+                </button>
+                <button class="btn btn-success" btnRadio="liked" [(ngModel)]="predicate" (click)="loadLikes('liked')">
+                    کاربرهای لایک شده
+                </button>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-2" *ngFor="let member of members">
+            <app-member-card [member]="member"></app-member-card>
+        </div>
+    </div>
+</div>

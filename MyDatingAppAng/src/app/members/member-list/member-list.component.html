@@ -1,0 +1,61 @@
+<div class="text-right mt-3">
+    <p class="mx-3 mb-4">موارد یافت شده: {{pagination?.totalItems??0}}</p>
+</div>
+
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-body custom-card">
+            <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadMembers()" autocomplete="off">
+
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label>سن از:</label>
+                            <input type="number" class="form-control w-100 mt-2" style="width: 70px;" name="minAge"
+                                [(ngModel)]="userParams.minAge">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label>سن تا:</label>
+                            <input type="number" class="form-control w-100 mt-2" style="width: 70px;" name="maxAge"
+                                [(ngModel)]="userParams.maxAge">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label>جنسیت:</label>
+                            <select name="gender" [(ngModel)]="userParams.gender" style="width: 70px;" class="form-control w-100 mt-2">
+        
+                                <option *ngFor="let gender of genderList" [value]="gender.value">
+                                    {{gender.display}}
+                                </option>
+        
+                            </select>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 d-flex justify-content-end">
+                        <button class="btn btn-success mx-3" type="submit">اعمال فیلترها</button>
+                            <button (click)="resetFilters()" class="btn btn-danger ml-1" type="submit">حذف فیلترها</button>
+                    </div>
+                </div>
+        
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-3" *ngFor="let member of members">
+        <app-member-card [member]="member"></app-member-card>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage" (pageChanged)="pageChnaged($event)" previousText="&lsaquo;"
+        nextText="&rsaquo;" firstText="&lsaquo;" lastText="&raquo;"></pagination>
+</div>

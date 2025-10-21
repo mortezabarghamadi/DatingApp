@@ -1,0 +1,14 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+img {
+    max-height: 50px;
+    border: 2px solid #fff;
+    display: inline;
+}
+
+.navbar{
+    background: rgb(48,12,62);
+    background: linear-gradient(90deg, rgba(48,12,62,1) 0%, rgba(40,43,130,1) 69%, rgba(0,40,48,1) 100%);
+}

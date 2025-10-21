@@ -9,7 +9,7 @@ namespace Application.Security.Passwordhelper
 {
     public class PasswordHelper:IPasswordHelper
     {
-        //رمز گذاری پسورد
+        //رمز گذاری پسورد.
         #region encryption
 
         public string EncodePasswordMd5(string password)

@@ -10,7 +10,7 @@ using DatingApp.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 
@@ -32,7 +32,7 @@ builder.Services.AddIdentityService(builder.Configuration);
 #endregion
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline..
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

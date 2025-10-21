@@ -16,7 +16,7 @@ namespace IOC.Dependencies
 {
     public static class DependencyContainer
     {
-        // محل اد کردن تمام سرویس ها و ریپازیتوری ها
+        // محل اد کردن تمام سرویس ها و ریپازیتوری ها.
         public static void  RegisterServices(this IServiceCollection service)
         {
             #region Service

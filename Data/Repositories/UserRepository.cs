@@ -30,7 +30,7 @@ namespace Data.Repositories
 
         #region User
 
-        //Get data
+        //Get data.
         public async Task<IEnumerable<User>> GetAllUsersAsync()
             => await _context.Users
                 .Include(u => u.Photos)

@@ -14,7 +14,7 @@ namespace Domain.Interfaces
 
 
         #region User 
-        //Get data
+        //Get data.
         Task<IEnumerable<User>> GetAllUsersAsync();
 
         IQueryable<User> GetAllUsersAsQueryable();

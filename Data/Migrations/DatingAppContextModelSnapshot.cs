@@ -41,12 +41,12 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Photos");
                 });
@@ -160,10 +160,13 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Domain.Entites.Photo.Photo", b =>
                 {
-                    b.HasOne("Domain.Entites.User.User", null)
+                    b.HasOne("Domain.Entites.User.User", "User")
                         .WithMany("Photos")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entites.User.UserLike", b =>

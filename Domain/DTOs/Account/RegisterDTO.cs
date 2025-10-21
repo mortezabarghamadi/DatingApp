@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Domain.DTOs.Account
         [MaxLength(350, ErrorMessage = "حداکثر کاراکتر مجاز {1} می‌باشد")]
         [Compare(nameof(Password),ErrorMessage = "با پسورد وارد کرده همخوانی ندارد")]
         public string ConfirmPassword { get; set; }
+        [Display(Name = "آواتار")]
+        public ICollection<IFormFile>? Images { get; set; }
 
         [Display(Name = "نحوه آشنایی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

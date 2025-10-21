@@ -1,5 +1,6 @@
 ﻿using Application.Convertors;
 using Application.Extensions.Common;
+using Application.Extensions.Image;
 using Application.Security.Passwordhelper;
 using Application.Security.Passwordhelper;
 using Application.Senders;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Domain.Entites.Photo;
 using static Domain.DTOs.Account.LoginDTO;
 using static Domain.DTOs.Account.RegisterDTO;
 
@@ -51,13 +53,18 @@ namespace Application.Services.Implementation
             #region Validations
             if (await _userRepository.checkEmailisExist(registerDTO.Email))
                 return Registerresult.EmailIsExist;
+            if (registerDTO.Images == null || !registerDTO.Images.Any() || registerDTO.Images.Count > 10)
+            {
+                return RegisterDTO.Registerresult.Error; // یا یک پیام خطای مناسب
+            }
             #endregion
+
 
             #region Set properties
             User user = new User()
             {
                 Email = registerDTO.Email.ToLower().Trim(),
-                Avatar = "Default.png",
+                Photos = new List<Photo>(),
                 IsEmailActive = false, // پیش‌فرض غیرفعال
                 Mobile = null,
                 password = _passwordHelper.EncodePasswordMd5(registerDTO.Password),
@@ -72,6 +79,34 @@ namespace Application.Services.Implementation
             };
             #endregion
 
+            #region AddImage
+
+            int photoIndex = 0;
+            foreach (var file in registerDTO.Images)
+            {
+                if (file.IsValidFile()) // از متد اعتبارسنجی موجود استفاده کنید
+                {
+                    var savePath = "wwwroot/images/users"; // مسیر ذخیره فایل‌ها
+
+                    // ذخیره فایل
+                    var fileName = await file.SaveFile(savePath); // از متد افزونه موجود استفاده کنید
+
+                    if (fileName != "File Not Found")
+                    {
+                        var photo = new Photo
+                        {
+                            Url = "/images/users/" + fileName, // مسیر عمومی برای دسترسی
+                            IsMain = photoIndex == 0, // اولین عکس را به عنوان عکس اصلی تنظیم کنید
+                            PublicId = Guid.NewGuid().ToString(), // یک PublicId ساده در نظر بگیرید
+                            User = user // تنظیم رابطه با کاربر
+                        };
+                        user.Photos.Add(photo);
+                        photoIndex++;
+                    }
+                }
+            }
+
+                #endregion
             #region Insert user
             await _userRepository.InsertUsersAsync(user);
             await _userRepository.SaveChangeAsync(); 

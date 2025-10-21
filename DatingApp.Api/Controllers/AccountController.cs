@@ -73,7 +73,7 @@ namespace DatingApp.Api.Controllers
         //ثبت کابر
         #region Registre
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDTO registerDto)
+        public async Task<IActionResult> Register([FromForm] RegisterDTO registerDto)
         {
             #region Validation
 

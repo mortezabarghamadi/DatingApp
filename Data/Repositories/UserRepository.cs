@@ -47,6 +47,12 @@ namespace Data.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(p => p.UserID == id);
         }
+        public async Task<User?> GetUserWithPhotos(int id)
+        {
+            return await _context.Users
+                .Include(u => u.Photos)
+                .FirstOrDefaultAsync(p => p.UserID == id);
+        }
         //check email
         public async Task<bool> checkEmailisExist(string email)
         {

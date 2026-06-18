@@ -26,6 +26,7 @@ namespace IOC.Dependencies
             service.AddScoped<ISendMail, SendMail>();
             service.AddScoped<IViewRender, RenderViewToString>();
             service.AddScoped<IPasswordHelper, PasswordHelper>();
+            service.AddScoped<IPhotoService, PhotoService>();
             #endregion
 
             #region Repository

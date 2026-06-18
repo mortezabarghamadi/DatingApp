@@ -411,3 +411,4 @@ C:\Users\Morteza\source\repos\MyDatingApp\DatingApp.Api\bin\Debug\net6.0\runtime
 C:\Users\Morteza\source\repos\MyDatingApp\DatingApp.Api\obj\Debug\net6.0\DatingApp.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Morteza\source\repos\MyDatingApp\DatingApp.Api\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Morteza\source\repos\MyDatingApp\DatingApp.Api\obj\Debug\net6.0\DatingApp.Api.sourcelink.json
+C:\Users\Morteza\source\repos\MyDatingApp\DatingApp.Api\obj\Debug\net6.0\swae.build.ex.cache

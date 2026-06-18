@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Domain.DTOs.Account;
+using Domain.Entites.User;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.DTOs.Account;
-using Domain.Entites.User;
 
 namespace Domain.Interfaces
 {
@@ -22,6 +23,8 @@ namespace Domain.Interfaces
         Task<User> checkUserByEmailAndPassword( string email,string password);
         Task<User?> GetUserByEmail(string Email);
         Task<User?> GetUserInformationByNameAsync(string Name);
+        Task<User?> GetUserWithPhotos(int id);
+        
         //چک کردن عدم وارد کردن ایمیل تکراری
         Task<bool> checkEmailisExist(string email);
 

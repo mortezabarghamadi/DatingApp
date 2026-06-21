@@ -24,6 +24,10 @@ namespace DatingApp.Api.Controllers
         [HttpPost("{userName}")]
         public async Task<IActionResult> AddLike(string userName)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized(" ابتدا باید وارد سیستم شوید!");
+            }
             var sourceUserId = User.GetUserId();
 
             var result = await _userLikeService.AddUserLikeAsync(sourceUserId, userName);

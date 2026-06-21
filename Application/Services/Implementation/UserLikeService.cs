@@ -31,7 +31,7 @@ namespace Application.Services.Implementation
             if (likedUser == null)
                 return false;
 
-            if (sourceUser.Name == userName)
+            if (sourceUser.Name== userName)
                 return false;
 
             var userLike = await _userLikeRepository.GetUserLike(sourceUserId, likedUser.UserID);

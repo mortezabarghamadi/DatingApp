@@ -32,6 +32,7 @@ namespace Application.Services.Interfaces
         #region User 
         //گرفتن اطلاعات
         Task<IEnumerable<User>> GetAllUserAsync();
+        Task<IEnumerable<MemberDTO>> GetUsersAsync(UserSearchParams userSearchParams);
         Task<User?> GetByIdAsync(int id);   
         Task<User?> GetUserByEmail(string Email);
         Task<IEnumerable<MemberDTO>> GetAllUserInformationAsync();

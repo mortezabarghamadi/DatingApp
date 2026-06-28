@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs.Account;
+using Domain.DTOs.User;
 using Domain.Entites.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +25,8 @@ namespace Domain.Interfaces
         Task<User?> GetUserByEmail(string Email);
         Task<User?> GetUserInformationByNameAsync(string Name);
         Task<User?> GetUserWithPhotos(int id);
-        
+        Task<IEnumerable<User>> GetUsersAsync(UserSearchParams userSearchParams);
+
         //چک کردن عدم وارد کردن ایمیل تکراری
         Task<bool> checkEmailisExist(string email);
 

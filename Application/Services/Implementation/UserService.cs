@@ -9,16 +9,20 @@ using Domain.DTOs.Account;
 using Domain.DTOs.Common;
 using Domain.DTOs.photo;
 using Domain.DTOs.User;
+using Domain.Entites.Photo;
 using Domain.Entites.User;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Domain.Entites.Photo;
+using static Azure.Core.HttpHeader;
 using static Domain.DTOs.Account.LoginDTO;
 using static Domain.DTOs.Account.RegisterDTO;
 
@@ -299,6 +303,35 @@ namespace Application.Services.Implementation
                 }).ToList()
             };
         }
+        public async Task<IEnumerable<MemberDTO>> GetUsersAsync(UserSearchParams userSearchParams)
+        {
+            var users = await _userRepository.GetUsersAsync(userSearchParams);
+
+            return  users.Select(user=> new MemberDTO
+            {
+                UserID = user.UserID,
+                Age = user.DateOfBirth.CalculateAge(),
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                Gender = user.Gender,
+                Interests = user.Interests,
+                Introduction = user.Introduction,
+                IsEmailActive = user.IsEmailActive,
+                KnowAs = user.KnowAs,
+                LookingFor = user.LookingFor,
+                Mobile = user.Mobile,
+                RegisterDate = user.RegisterDate,
+                Name = user.Name,
+                Photos = user.Photos?.Select(p => new PhotoDTO
+                {
+                    Id = p.Id,
+                    IsMain = p.IsMain,
+                    Url = p.Url
+                }).ToList() ?? new List<PhotoDTO>()
+
+            }).ToList()?? new List<MemberDTO>();
+        }
 
         #endregion
 
@@ -408,6 +441,8 @@ namespace Application.Services.Implementation
 
             return true;
         }
+
+       
 
         #endregion
 

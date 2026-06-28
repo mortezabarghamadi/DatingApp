@@ -18,10 +18,9 @@ namespace DatingApp.Api.Controllers
         #region Constructor
 
         private readonly IUserService _userService;
-
         public UserController(IUserService userService)
         {
-            _userService=userService;
+             _userService = userService;
         }
 
         #endregion
@@ -36,6 +35,11 @@ namespace DatingApp.Api.Controllers
             return Ok(users);
         }
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetByFilter([FromQuery]UserSearchParams userSearchParams) {
+            var user= await _userService.GetUsersAsync(userSearchParams);
+            return Ok(user);
+        }
 
         //گرفتن کاربر با نام حاص
         [HttpGet("{Name}")]

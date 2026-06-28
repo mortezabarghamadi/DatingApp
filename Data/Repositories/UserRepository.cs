@@ -1,5 +1,6 @@
 ﻿using Data.Context;
 using Domain.DTOs.Account;
+using Domain.DTOs.User;
 using Domain.Entites.User;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +76,20 @@ namespace Data.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(p => p.Email == Email);
         }
+        public async Task<IEnumerable<User>> GetUsersAsync(UserSearchParams userSearchParams)
+        {
+            var query = _context.Users.AsQueryable();
+
+            query = query.Where(p =>
+                (string.IsNullOrWhiteSpace(userSearchParams.Gender) || p.Gender == userSearchParams.Gender) &&
+                (!userSearchParams.MinAge.HasValue || (DateTime.Today.Year - p.DateOfBirth.Year) >= userSearchParams.MinAge.Value) &&
+                (!userSearchParams.MaxAge.HasValue || (DateTime.Today.Year - p.DateOfBirth.Year) <= userSearchParams.MaxAge.Value) &&
+                (string.IsNullOrWhiteSpace(userSearchParams.CIty) || p.City == userSearchParams.CIty)
+            );
+
+            return await query.ToListAsync();
+        }
+
         public async Task InsertUsersAsync(User user)
         {
             await _context.Users.AddAsync(user);
@@ -96,6 +111,8 @@ namespace Data.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+       
 
 
 

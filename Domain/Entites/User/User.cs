@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entites.Post;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -80,13 +81,16 @@ namespace Domain.Entites.User
 
         #region Relation
 
-        public ICollection<Photo.Photo> Photos { get; set; }
+        public ICollection<Photo.Photo> Photos { get; set; } = new List<Photo.Photo>();
 
         [InverseProperty("SourceUser")]
-        public ICollection<UserLike> LikedByUsers { get; set; }
+        public ICollection<UserLike> LikedByUsers { get; set; } = new List<UserLike>();
 
         [InverseProperty("LikedUser")]
-        public ICollection<UserLike> LikedUsers { get; set; }
+        public ICollection<UserLike> LikedUsers { get; set; } = new List<UserLike>();
+
+        [InverseProperty("CreatePostUser")]
+        public ICollection<Post.Post> CreatePostsUser { get; set; } = new List<Post.Post>();
         #endregion
     }
 }

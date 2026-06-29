@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Domain.Entites.User;
 using Domain.DTOs.photo;
 using Domain.Entites.Photo;
+using Domain.Entites.Post;
 
 namespace Data.Context
 {
@@ -35,12 +36,20 @@ namespace Data.Context
         public DbSet<Photo> Photos { get; set; }
 
         #endregion
+        #region Post
+        public DbSet<Post> Posts { get; set; }
+        #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Post>()
+                .HasOne(p => p.CreatePostUser)
+                .WithMany(p => p.CreatePostsUser)
+                .HasForeignKey(p => p.CreatePostUserId);
         }
     }
 }

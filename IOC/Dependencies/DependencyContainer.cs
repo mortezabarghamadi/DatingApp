@@ -27,12 +27,13 @@ namespace IOC.Dependencies
             service.AddScoped<IViewRender, RenderViewToString>();
             service.AddScoped<IPasswordHelper, PasswordHelper>();
             service.AddScoped<IPhotoService, PhotoService>();
+            service.AddScoped<IPostService, PostService>();
             #endregion
 
             #region Repository
             service.AddScoped<IUserRepository, UserRepository>();
             service.AddScoped<IUserLikeRepository, UserLikeRepository>();
-
+            service.AddScoped<IPostRepository, PostRepository>();
             #endregion
 
         }

@@ -152,6 +152,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "DatingApp.Api.Controllers.PostController",
+    "Method": "AddAsync",
+    "RelativePath": "api/Post/add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postDTO",
+        "Type": "Domain.DTOs.Post.PostDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DatingApp.Api.Controllers.UserController",
     "Method": "Get",
     "RelativePath": "api/User",

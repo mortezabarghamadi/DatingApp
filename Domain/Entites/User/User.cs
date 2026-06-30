@@ -83,14 +83,12 @@ namespace Domain.Entites.User
 
         public ICollection<Photo.Photo> Photos { get; set; } = new List<Photo.Photo>();
 
-        [InverseProperty("SourceUser")]
         public ICollection<UserLike> LikedByUsers { get; set; } = new List<UserLike>();
 
-        [InverseProperty("LikedUser")]
         public ICollection<UserLike> LikedUsers { get; set; } = new List<UserLike>();
 
-        [InverseProperty("CreatePostUser")]
         public ICollection<Post.Post> CreatePostsUser { get; set; } = new List<Post.Post>();
+        public ICollection<Comment.Comment> Comments { get; set; } = new List<Comment.Comment>();
         #endregion
     }
 }

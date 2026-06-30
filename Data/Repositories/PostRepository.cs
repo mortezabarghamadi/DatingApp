@@ -34,12 +34,12 @@ namespace Data.Repositories
 
         public async Task<Post> GetByIdAsync(int postId)
         {
-            return await _appContext.Posts.FirstOrDefaultAsync(p=>p.Id==postId);
+            return await _appContext.Posts.AsNoTracking().FirstOrDefaultAsync(p=>p.Id==postId);
         }
 
         public async Task<IEnumerable<Post>> GetByuserIdAsync(int userId)
         {
-            return await _appContext.Posts.Where(p=>p.CreatePostUserId==userId).ToListAsync();
+            return await _appContext.Posts.Include(c=>c.CreatePostUser).Where(p=>p.CreatePostUserId==userId).AsNoTracking().ToListAsync();
         }
 
         public async Task SaveChangesAsync()

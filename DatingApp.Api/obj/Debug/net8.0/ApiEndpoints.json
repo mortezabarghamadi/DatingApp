@@ -153,6 +153,27 @@
   },
   {
     "ContainingType": "DatingApp.Api.Controllers.PostController",
+    "Method": "AddComment",
+    "RelativePath": "api/Post/{postId}/comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "commentDto",
+        "Type": "Domain.DTOs.Comment.CommentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DatingApp.Api.Controllers.PostController",
     "Method": "AddAsync",
     "RelativePath": "api/Post/add",
     "HttpMethod": "POST",

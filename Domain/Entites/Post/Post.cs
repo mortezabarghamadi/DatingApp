@@ -11,14 +11,13 @@ namespace Domain.Entites.Post
     public class Post
     {
         public int Id { get; set; }
-        public string Context { get; set; }
+        public string Content { get; set; }
         
         public DateTime CreateTime { get; set; }
         // این ستون کلید خارجی اصلی ماست
         public int CreatePostUserId { get; set; }
         [ForeignKey(nameof(CreatePostUserId))]
-        [InverseProperty("CreatePostsUser")]
         public User.User CreatePostUser { get; set; } = null!;
-
+        public ICollection<Comment.Comment> Comments { get; set; } = new List<Comment.Comment>();
     }
 }

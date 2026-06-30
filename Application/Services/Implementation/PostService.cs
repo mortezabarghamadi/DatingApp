@@ -29,7 +29,7 @@ namespace Application.Services.Implementation
             var newPost = new Domain.Entites.Post.Post
             {
                 CreateTime = DateTime.Now,
-                Context= postDTO.Content,
+                Content= postDTO.Content,
                 CreatePostUserId = userId
             };
             await _postRepository.AddAsync(newPost);
